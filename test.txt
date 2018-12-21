@@ -1,0 +1,73 @@
+S -> DECLERATION 
+S -> ASSIGNMENT 
+S -> EXPRESSION 
+S -> ''
+DECLERATION -> ARITHMATIC_TYPE ASSIGNMENT 
+DECLERATION -> STRING_TYPE ASSIGNMENT 
+DECLERATION -> CHAR_TYPE ASSIGNMENT 
+DECLERATION -> BOOL_TYPE ASSIGNMENT 
+DECLERATION -> DS_CLASS DS_EXP
+ARITHMATIC_TYPE -> int 
+ARITHMATIC_TYPE -> float 
+ARITHMATIC_TYPE -> double 
+ARITHMATIC_TYPE -> long 
+STRING_TYPE -> string
+CHAR_TYPE -> char
+BOOL_TYPE -> bool
+DS_CLASS -> stack 
+DS_CLASS -> queue 
+DS_CLASS -> vector 
+ASSIGNMENT -> identfier X 
+X -> = EXP_TYPE 
+X -> '' 
+X -> [number] 
+X -> [number][number]
+EXP_TYPE -> ARITHMATIC_EXP 
+EXP_TYPE -> STRING_EXP 
+EXP_TYPE -> BOOL-EXP 
+EXP_TYPE -> ALPHABET_EXP
+ARITHMATIC_EXP  -> A
+A -> B A_PRIMARY
+A_PRIMARY -> + B A_PRIMARY 
+A_PRIMARY -> - B A_PRIMARY 
+A_PRIMARY -> ''
+B -> C D_PRIMARY
+D_PRIMARY -> * C D_PRIMARY 
+D_PRIMARY -> / C D_PRIMARY 
+D_PRIMARY -> ''
+C -> identfier 
+C -> number 
+C -> - C 
+C -> ( A )
+STRING_EXP  -> letters
+BOOL-EXP -> true 
+BOOL-EXP -> false
+ALPHABET_EXP -> character
+DS_EXP -> <ARITHMATIC_TYPE> identfier 
+DS_EXP -> <STRING_TYPE> identfier 
+DS_EXP -> <BOOL_TYPE> identfier 
+DS_EXP -> <CHAR_TYPE> identfier 
+EXPRESSION -> IF_EXP 
+EXPRESSION -> LOOP_EXP 
+IF_EXP -> if CONDITION : S else: S finish
+CONDITION -> ( VARIABLE OP VARIABLE ) 
+VARIABLE -> identfier 
+VARIABLE -> number 
+VARIABLE -> character
+OP -> gr 
+OP -> sm 
+OP -> greq 
+OP -> smeq 
+OP -> eq 
+OP -> neq 
+LOOP_EXP -> WHILE_EXP 
+LOOP_EXP -> FOR_EXP
+WHILE_EXP -> while CONDITION : S finish
+FOR_EXP -> for ITERATOR in ITERATOR_COND : S finish
+ITERATOR -> identfier
+ITERATOR_COND -> identfier 
+ITERATOR_COND -> number 
+ITERATOR_COND -> ( ITERATOR_COND ) 
+
+
+

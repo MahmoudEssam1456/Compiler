@@ -1,0 +1,33 @@
+S -> DECLERATION | ASSIGNMENT | EXPRESSION | epsilon
+DECLERATION -> ARITHMATIC_TYPE ASSIGNMENT | STRING_TYPE ASSIGNMENT | CHAR_TYPE
+ASSIGNMENT | BOOL_TYPE ASSIGNMENT | DS_CLASS DS_EXP
+ARITHMATIC_TYPE -> int | float | double | long 
+STRING_TYPE -> string
+CHAR_TYPE -> char
+BOOL_TYPE -> bool
+DS_CLASS -> stack | queue | vector 
+ASSIGNMENT -> identfier X 
+X -> = EXP_TYPE | epsilon | [number] | [number][number]
+EXP_TYPE -> ARITHMATIC_EXP  | STRING_EXP | BOOL-EXP | ALPHABET_EXP
+ARITHMATIC_EXP  -> A
+A -> B A_PRIMARY
+A_PRIMARY -> + B A_PRIMARY | - B A_PRIMARY | epsilon
+B -> C D_PRIMARY
+D_PRIMARY -> * C D_PRIMARY | / C D_PRIMARY | epsilon
+C -> identfier | number | - c | ( A )
+STRING_EXP  -> letters
+BOOL-EXP -> true | false
+ALPHABET_EXP -> character
+DS_EXP -> <ARITHMATIC_TYPE> identfier | <STRING_TYPE> identfier | <BOOL_TYPE> identfier | 
+<CHAR_TYPE> identfier 
+EXPRESSION -> IF_EXP | LOOP_EXP 
+IF_EXP -> if CONDITION : S else : S finish
+CONDITION -> ( VARIABLE OP VARIABLE ) 
+VARIABLE -> identfier | number | character
+OP -> gr | sm | greq | smeq | eq | neq 
+LOOP_EXP -> WHILE_EXP | FOR_EXP
+WHILE_EXP -> while CONDITION : S finish
+FOR_EXP -> for ITERATOR in range ITERATOR_COND : S finish
+ITERATOR -> identfier
+ITERATOR_COND -> identfier | number | ( ITERATOR_COND ) 
+

@@ -1,0 +1,72 @@
+S -> D ;
+S -> AS ;
+S -> EX ;
+S -> ''
+D -> AT AS 
+D -> ST AS 
+D -> CT AS 
+D -> BT AS 
+D -> DSC DSE
+AT -> int 
+AT -> float 
+AT -> double 
+AT -> long 
+ST -> string
+CT -> char
+BT -> bool
+DSC -> stack 
+DSC -> queue 
+DSC -> vector 
+AS -> identfier X 
+X -> = ET 
+X -> '' 
+X -> [number] 
+X -> [number][number]
+ET -> ARE
+ET -> SE
+ET -> BE
+ET -> ALE
+ARE-> A
+A -> B AP
+AP -> + B AP 
+AP -> - B AP 
+AP -> ''
+B -> C DP
+DP -> * C DP 
+DP -> / C DP 
+DP -> ''
+C -> identfier 
+C -> number 
+C -> - C 
+C -> ( A )
+SE -> letters
+BE-> true 
+BE-> false
+ALE -> character
+DSE -> < DT > identfier 
+DT -> AT
+DT -> ST
+DT -> BT
+DT -> CT
+EX-> IFE
+EX-> LE 
+IFE-> if CON : S else: S finish
+CON -> ( V OP V ) 
+V-> identfier 
+V-> number 
+V-> character
+OP -> gr 
+OP -> sm 
+OP -> greq 
+OP -> smeq 
+OP -> eq 
+OP -> neq 
+LE -> WE
+LE -> FE
+WE-> while CON : S finish
+FE-> for I in IC : S finish
+I -> identfier
+IC-> identfier 
+IC-> number 
+IC-> ( IC ) 
+
