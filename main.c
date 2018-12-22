@@ -251,8 +251,8 @@ void check_all(){
         j=0;
     }*/
 }
-char* a[40];
-int top=-1,i;
+char a[40][20];
+int top=-1;
 
 void error(){
 printf("Syntax Error");
@@ -260,26 +260,30 @@ printf("Syntax Error");
 void push(char k[])
 {
     int i = 0;
-    char m[30];
-
+    //char m[30];
+    //printf("current top=%d\n\n",top);
     //printf("m=%s\n",m);
     char* args[10];
     args[i] = strtok(k," ");
-    //printf("[0]%s\n",args[i]);
+    //printf("args[0]=%s\n",args[i]);
     while(args[i] != NULL){
         i++;
         args[i] = strtok(NULL," ");
-        //printf("[%d]%s\n",i,args[i]);
+        //printf("args[%d]=%s\ti=[%d]\n",i,args[i],i);
     }
-    printf("args=%s\n",args[i-1]);
+    printf("\n");
+    //printf("args=%s\n",args[i-1]);
     for(i=i-1;i>=0;i--){
-        a[++top]=args[i];
+        top++;
+        strcpy(a[top],args[i]);
+        //printf("a[%d]=\targs[%d]=%s\n",top,i,args[i]);
         //printf("a[%d]=%s\n",top,a[top]);
     }
-
+    printf("\n");
     for(i=0;i<=top;i++){
-        printf("[%d]%s\n",i,a[i]);
+        printf("a[%d]=%s\n",i,a[i]);
     }
+    printf("\n");
 }
 char* TOS()        //Returns TOP of the Stack
 {
@@ -287,16 +291,21 @@ char* TOS()        //Returns TOP of the Stack
 }
 void pop()       //Pops 1 element from the Stack
 {
-  a[top--]='\0';
-  printf("top=%s\n",a[top]);
+
+  //printf("oldtop=%d\n",top);
+  strcpy(a[top],"\0");
+  top--;
+  //printf("newtop=%d\n",top);
+  //printf("top=%s\n",a[top]);
 }
 void display()  //Displays Elements Of Stack
 {
+  int i;
   for(i=0;i<=top;i++)
     printf("%s",a[i]);
 }
 
-char non_terminal[31][5]={"S","D","AT","ST","CT","BT","DSC","AS","X","ET","ARE","A","AP","B","DP","C","SE","BE","ALE","DSE","DT","EX","IFE","CON","V","OP","LE","WE","FE","I","IC"};
+const char non_terminal[31][5]={"S","D","AT","ST","CT","BT","DSC","AS","X","ET","ARE","A","AP","B","DP","C","SE","BE","ALE","DSE","DT","EX","IFE","CON","V","OP","LE","WE","FE","I","IC"};
   char terminal[42][20]={";","int","float","double","long","string","char","bool","stack","queue","vector","identifier","=","[number]","[number][number]","+","-","*","/","number","(",")","letters","true","false","character","<",">","if",":","else:","finish","gr","sm","greq","smeq","eq","neq","while","for","in","$"};
   char t[31][42][30]={"$","D ;","D ;","D ;","D ;","D ;","D ;","D ;","D ;","D ;","D ;","AS ;","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","EX ;","$","e","e","$","$","$","$","$","$","EX ;","EX ;","$","e",
   "$","AT AS","AT AS","AT AS","AT AS","ST AS","CT AS","BT AS","DSC AS","DSC AS","DSC AS","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
@@ -306,7 +315,7 @@ char non_terminal[31][5]={"S","D","AT","ST","CT","BT","DSC","AS","X","ET","ARE",
   "$","$","$","$","$","$","$","bool","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","$","$","$","$","$","$","$","stack","queue","vector","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","$","$","$","$","$","$","$","$","$","$","identifier X","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
-  "e","$","$","$","$","$","$","$","$","$","$","$","ET","[number]","[number][number]","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
+  "e","$","$","$","$","$","$","$","$","$","$","$","= ET","[number]","[number][number]","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","$","$","$","$","$","$","$","$","$","$","ARE","$","$","$","$","ARE","$","$","ARE","ARE","$","SE","BE","BE","ALE","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","$","$","$","$","$","$","$","$","$","$","A","$","$","$","$","A","$","$","A","A","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","$","$","$","$","$","$","$","$","$","$","B AP","$","$","$","$","B AP","$","$","B AP","B AP","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
@@ -335,120 +344,224 @@ int main(int argc, char *argv[]){
     // get data from stdin or path or from argv
     init_io(&source_fp, stdin,  "r",  argc > 1 ? argv[1] : "");
     int i=0,j=0,ir=0,ic=0,k;
-    char* term,*nonterm,*test,*r,ah[5];
+    char* term,*nonterm,r[10];
     check_all();
     char line[10]="S $";
     push(line);
 
-    for (i = 0; i < 5; i++){
+    for (i = 0; i <= k; i++){
         while(pairs[i][j].label != '\0'){
             int n=0;
     		printf("%s: %s\n",  pairs[i][j].label, pairs[i][j].value);
             if(!strcmp(TOS(),term))
                 {
                     pop();
-                    test=TOS();
-                    printf("test=%s\n",test);
                     if(strcmp(term,";"))
                     j++;
+                    //printf("pair=%s\n",pairs[i][j+1].value);
+                    //if(!strcmp(pairs[i][j+1].value,"'")){
+                    //j++;
+                    //printf("pair2=%s\n",pairs[i][j].value);}
                 }
-            if(strcmp(term,";")&&strcmp(TOS(),"$")){
+            /*
+            if(!strcpy(pairs[i][j].value,"'")&&strcpy(pairs[i][j+2].value,"'")){
+                j++;
+                printf("here55");
+            }*/
+            if(strcmp(TOS(),"$")){
                 term=pairs[i][j].value;
-                printf("term=%s\n",term);
+                //printf("term=%s\n",term);
                 nonterm=TOS();
-                printf("nonterm=%s\n",nonterm);
+                //printf("nonterm=%s\n",nonterm);
                 for (n=0;n<31;n++){
-                    k=strcmp(non_terminal[n],nonterm);
-                    if(k==0){
+                    if(!strcmp(non_terminal[n],nonterm)){
                         ir=n;
                         break;
                     }
                 }
                 printf("ir=%d\n",ir);
                 if(ir!=n){
+                    if(strcmp(nonterm,";")){
+                    //printf("er?\n");
                     error();
                     break;
+                    }
                 }
 
                 for (n=0;n<42;n++){
+                    if(!strcmp(terminal[n],term)){
+                        ic=n;
+                        break;
+                    }
+                }
+                //printf("ic=%d\n",ic);
+
+                if(ic!=n){
+                //printf("label=%s\n",pairs[i][j].label);
+                if(((!strcmp(term,"'")|| term[0]=='"'))&&((!strcmp(pairs[i][j+2].value,"'"))||(!strcmp(pairs[i][j+2].value,"\"")))){
+                    j++;
+                    term=pairs[i][j].value;
+                    //printf("here\n");
+                    if(strlen(term)==1){
+                        term="character";
+                        pairs[i][j].label="character";
+                        ic=25;
+                    }
+                    else
+                    {
+                        term="letters";
+                        pairs[i][j].label="letters";
+                        ic=22;
+                    }
+                    printf("term=%s\n",term);
+                }
+                else if((!strcmp(term,"'")|| !strcmp(term,"\""))){
+                    //printf("here2\n");
+                    j++;
+                    term=pairs[i][j].value;
+                    for (n=0;n<42;n++){
                     k=strcmp(terminal[n],term);
                     if(k==0){
                         ic=n;
                         break;
                     }
                 }
-                printf("ic=%d\n",ic);
+                }
+                else if(!strcmp(pairs[i][j].label,"character"))
+                {
+                    term="character";
+                    ic=25;
+                    //printf("newic=%d\n",ic);
+                }
 
-                if(ic!=n){
-                //printf("label=%s\n",pairs[i][j].label);
-                if(!strcmp(term,"'")|| term[0]=='"'){
-                    j++;
-                    term=pairs[i][j].value;
-                    if((term>="a" && term<="z")||(term>="A" && term<="Z")||(term>="0" && term<="9")){
-                        term="character";
-                        ic=25;
+                else if(!strcmp(pairs[i][j].label,"letters"))
+                {
+                    term="letters";
+                    ic=22;
+                    //printf("newic=%d\n",ic);
+                }
+                else if(term[0]>='0' && term[0]<='9'){
+                    int f=1;
+                    int len=strlen(term);
+                    printf("len=%lu\n",strlen(term));
+
+                    for(n=0;n<len;n++){
+                        if(term[n]>='0' && term[n]<='9')
+                            continue;
+                        else{
+                            f=0;
+                            break;
+                        }
+
                     }
-                    else{
-                        term="letters";
-                        ic=22;
+                    if(f==1){
+                    term="number";
+                    pairs[i][j].label="number";
+                    ic=19;
                     }
                 }
+
+                else if(!strcmp(pairs[i][j].label,"number"))
+                {
+                    term="number";
+                    ic=19;
+                    //printf("newic=%d\n",ic);
+                }/*
+                else if(term[0]=='['){
+                    j++;
+                    term=pairs[i][j].value;
+                    int len=strlen(term);
+                    int f=1;
+                    for(n=0;n<len;n++){
+                        if(term[n]>='0' && term[n]<='9')
+                            continue;
+                        else{
+                            f=0;
+                            break;
+                        }
+                    }
+                    if(f==1){
+                        j++;
+                        term=pairs[i][j].value;
+                        if(!strcmp(term,"]")){
+                            if(strcmp(pairs[i][j+1].value,"[")){
+                                j++;
+                                term=pairs[i][j].value;
+                                len=strlen(term);
+                                f=1;
+                                for(n=0;n<len;n++){
+                                if(term[n]>='0' && term[n]<='9')
+                                    continue;
+                                else{
+                                    f=0;
+                                    break;
+                                }
+                            }
+                            if(f==1){
+                                j++;
+                                term=pairs[i][j].value;
+                                if(!strcmp(term,"]")){
+                                    term="[number][number]";
+                                    pairs[i][j].label="[number][number]";
+                                    ic=14;
+                                }
+                            }
+                            }
+                            else{
+                                term="[number]";
+                                pairs[i][j].label="[number]";
+                                ic=13;
+                            }
+                        }
+                    }
+
+                }
+                else if(!strcmp(pairs[i][j].label,"[number]"))
+                {
+                    term="[number]";
+                    ic=13;
+                    //printf("newic=%d\n",ic);
+                }
+                else if(!strcmp(pairs[i][j].label,"[number][number]"))
+                {
+                    term="[number][number]";
+                    ic=14;
+                    //printf("newic=%d\n",ic);
+                }*/
                 else if(!strcmp(pairs[i][j].label,"identifier"))
                 {
                     term="identifier";
                     ic=11;
-                    printf("newic=%d\n",ic);
-                }
-                else if(term>="0" && term <="1000000"){
-                    term="number";
-                    ic=19;
-                }
-                else if(term[0]=='['){
-                    int end=strlen(term);
-                    for(n=0;n<end;n++){
-                        if((term[n]>='a' && term[n]<='z')||(term[n]>='A' && term[n]<='Z')){
-                            error();
-                            break;
-                        }
-                        if(term[end-1]!=']'){
-                            error();
-                            break;
-                        }
-                        if (term[n]==']' && n+1==end){
-                            term="[number]";
-                            ic=13;
-                        }
-                        else if(term[n]==']' && term[n+1]=='[' &&term[end-1]==']'){
-                            term="[number][number]";
-                            ic=14;
-                            break;
-                        }
-                    }
-
+                    //printf("newic=%d\n",ic);
                 }
                 else{
                     error();
                     break;
                 }
                 }
-                printf("topbefore=%s\n",TOS());
+                printf("ic=%d\n",ic);
+                //printf("topbefore=%s\n",TOS());
                 //strcpy(ah,t[ir][ic]);
                // printf("topbefore=%s\n",TOS());
                 pop();
-                r=t[ir][ic];
-                //strcpy(r,t[ir][ic]);
+                //r=t[ir][ic];
+                strcpy(r,t[ir][ic]);
                 //printf("old r=%s\n",r);
-                push(r);                                 //error t[ir][ic] changed
-                //strcpy(t[ir][ic],ah);
-                //printf("table=%s\n",t[ir][ic]);
+                //printf("table before push=%s\n",t[ir][ic]);
+
+                push(r);
+                //push(t[ir][ic]);                                 //error t[ir][ic] changed
+                //strcpy(t[ir][ic],r);
                 //printf("new r=%s\n",r);
+                //printf("table after push=%s\n",t[ir][ic]);
+
                 if(!strcmp(TOS(),"e"))
                 {
                     pop();
 
                 }
             }
-            printf("TOS=%s\nterm=%s\n",TOS(),term);
+            //printf("TOS=%s\nterm=%s\n",TOS(),term);
             if(!strcmp(TOS(),"$")&&!strcmp(term,";")){
                 printf("\n Given String is accepted\n\n");
                 break;
@@ -459,7 +572,14 @@ int main(int argc, char *argv[]){
                 break;
             }
             }
-            push("S");
+            int z;
+            for(z=0;z<top;z++){
+                strcpy(a[z],"\0");
+            }
+            top=-1;
+            strcpy(line,"S $");
+            if(i<k)
+                push(line);
             term="";
             j=0;
     }
