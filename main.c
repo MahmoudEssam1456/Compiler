@@ -473,7 +473,7 @@ int main(int argc, char *argv[]){
                     term="number";
                     ic=19;
                     //printf("newic=%d\n",ic);
-                }/*
+                }
                 else if(term[0]=='['){
                     j++;
                     term=pairs[i][j].value;
@@ -491,8 +491,8 @@ int main(int argc, char *argv[]){
                         j++;
                         term=pairs[i][j].value;
                         if(!strcmp(term,"]")){
-                            if(strcmp(pairs[i][j+1].value,"[")){
-                                j++;
+                            if(!strcmp(pairs[i][j+1].value,"[")){
+                                j+=2;
                                 term=pairs[i][j].value;
                                 len=strlen(term);
                                 f=1;
@@ -534,7 +534,7 @@ int main(int argc, char *argv[]){
                     term="[number][number]";
                     ic=14;
                     //printf("newic=%d\n",ic);
-                }*/
+                }
                 else if(!strcmp(pairs[i][j].label,"identifier"))
                 {
                     term="identifier";
@@ -557,6 +557,7 @@ int main(int argc, char *argv[]){
                         break;
                     }
                 }
+                printf("term=%s\n",term);
                 if(z==1){
                 pop();
                 //r=t[ir][ic];

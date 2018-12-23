@@ -1,2 +1,2 @@
 if (x gr 5) : x=5; else x=5; finish;;		
-stack <int> x;;
+int a[10][10];;
