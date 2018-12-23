@@ -11,7 +11,7 @@ struct pair {
     char value[20]; // maximum number of accepted word length is 20
 };
 
-struct pair pairs[5][10];
+struct pair pairs[5][30];
 int k=0,l=0; // for the array of structs (pairs)
 int bufferCnt = 0; // Buffer Counter for concatenating chars and cutting them
 
@@ -305,10 +305,10 @@ void display()  //Displays Elements Of Stack
     printf("%s",a[i]);
 }
 
-const char non_terminal[31][5]={"S","D","AT","ST","CT","BT","DSC","AS","X","ET","ARE","A","AP","B","DP","C","SE","BE","ALE","DSE","DT","EX","IFE","CON","V","OP","LE","WE","FE","I","IC"};
+  char non_terminal[31][5]={"S","D","AT","ST","CT","BT","DSC","AS","X","ET","ARE","A","AP","B","DP","C","SE","BE","ALE","DSE","DT","EX","IFE","CON","V","OP","LE","WE","FE","I","IC"};
   char terminal[42][20]={";","int","float","double","long","string","char","bool","stack","queue","vector","identifier","=","[number]","[number][number]","+","-","*","/","number","(",")","letters","true","false","character","<",">","if",":","else:","finish","gr","sm","greq","smeq","eq","neq","while","for","in","$"};
   char t[31][42][30]={"$","D ;","D ;","D ;","D ;","D ;","D ;","D ;","D ;","D ;","D ;","AS ;","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","EX ;","$","e","e","$","$","$","$","$","$","EX ;","EX ;","$","e",
-  "$","AT AS","AT AS","AT AS","AT AS","ST AS","CT AS","BT AS","DSC AS","DSC AS","DSC AS","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
+  "$","AT AS","AT AS","AT AS","AT AS","ST AS","CT AS","BT AS","DSC DSE","DSC DSE","DSC DSE","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","int","float","double","long","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","$","$","$","$","string","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
   "$","$","$","$","$","$","char","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$","$",
@@ -344,20 +344,24 @@ int main(int argc, char *argv[]){
     // get data from stdin or path or from argv
     init_io(&source_fp, stdin,  "r",  argc > 1 ? argv[1] : "");
     int i=0,j=0,ir=0,ic=0,k;
-    char* term,*nonterm,r[10];
+    char* term,*nonterm,r[30];
     check_all();
+
     char line[10]="S $";
     push(line);
 
-    for (i = 0; i <= k; i++){
+    for (i = 0; i <= 3; i++){
         while(pairs[i][j].label != '\0'){
             int n=0;
     		printf("%s: %s\n",  pairs[i][j].label, pairs[i][j].value);
-            if(!strcmp(TOS(),term))
+            if(!strcmp(TOS(),term)||!strcmp(TOS(),"e"))
                 {
                     pop();
-                    if(strcmp(term,";"))
                     j++;
+                    term=pairs[i][j].value;
+                    if(!strcmp(term,"else"))
+                        strcpy(term,"else:");
+                    printf("term=%s",term);
                     //printf("pair=%s\n",pairs[i][j+1].value);
                     //if(!strcmp(pairs[i][j+1].value,"'")){
                     //j++;
@@ -368,9 +372,11 @@ int main(int argc, char *argv[]){
                 j++;
                 printf("here55");
             }*/
-            if(strcmp(TOS(),"$")){
+            else if(strcmp(TOS(),"$")){
                 term=pairs[i][j].value;
-                //printf("term=%s\n",term);
+                if(!strcmp(term,"else"))
+                        strcpy(term,"else:");
+                printf("term=%s\n",term);
                 nonterm=TOS();
                 //printf("nonterm=%s\n",nonterm);
                 for (n=0;n<31;n++){
@@ -380,13 +386,14 @@ int main(int argc, char *argv[]){
                     }
                 }
                 printf("ir=%d\n",ir);
+                /*
                 if(ir!=n){
                     if(strcmp(nonterm,";")){
                     //printf("er?\n");
                     error();
                     break;
                     }
-                }
+                }*/
 
                 for (n=0;n<42;n++){
                     if(!strcmp(terminal[n],term)){
@@ -543,6 +550,14 @@ int main(int argc, char *argv[]){
                 //printf("topbefore=%s\n",TOS());
                 //strcpy(ah,t[ir][ic]);
                // printf("topbefore=%s\n",TOS());
+                int z=0;
+                for(n=0;n<31;n++){
+                    if(!strcmp(nonterm,non_terminal[n])){
+                        z=1;
+                        break;
+                    }
+                }
+                if(z==1){
                 pop();
                 //r=t[ir][ic];
                 strcpy(r,t[ir][ic]);
@@ -550,6 +565,7 @@ int main(int argc, char *argv[]){
                 //printf("table before push=%s\n",t[ir][ic]);
 
                 push(r);
+                }
                 //push(t[ir][ic]);                                 //error t[ir][ic] changed
                 //strcpy(t[ir][ic],r);
                 //printf("new r=%s\n",r);
@@ -558,7 +574,7 @@ int main(int argc, char *argv[]){
                 if(!strcmp(TOS(),"e"))
                 {
                     pop();
-
+                    printf("pop\n");
                 }
             }
             //printf("TOS=%s\nterm=%s\n",TOS(),term);
@@ -578,8 +594,7 @@ int main(int argc, char *argv[]){
             }
             top=-1;
             strcpy(line,"S $");
-            if(i<k)
-                push(line);
+            push(line);
             term="";
             j=0;
     }
