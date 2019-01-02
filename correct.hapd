@@ -1,0 +1,7 @@
+if (x greq 5) : x=5; else x=5; finish;;
+int a[10][10];;
+
+vector <int> x;;
+while ( x gr 6): i = 4; finish;;
+x = y - 4;;
+string x = "mahmoud";;
